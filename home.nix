@@ -13,6 +13,12 @@
 
   programs.home-manager.enable = true;
 
+  programs.git = {
+    enable = true;
+    settings.user.name = "Borislavsvilenov";
+    settings.user.email = "bobo.svilenov@gmail.com";
+  };
+
   programs.bash = {
     enable = true;
 
