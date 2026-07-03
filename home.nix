@@ -8,7 +8,6 @@
     git
       tmux
       self.packages.${pkgs.stdenv.hostPlatform.system}.nvim
-      pkgs.bashInteractive
   ];
 
   programs.home-manager.enable = true;
@@ -31,7 +30,7 @@
     };
 
     initExtra = ''
-      
+      PS1='\[\e[38;5;33;1m\]\u\[\e[0m\] \[\e[38;5;51;1;3m\]\W\[\e[0m\] \[\e[38;5;214m\]#\[\e[0m\] '
     '';
   };
 

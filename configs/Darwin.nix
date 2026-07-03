@@ -9,7 +9,6 @@
     [
     pkgs.iterm2
       pkgs.google-chrome
-      pkgs.bashInteractive
     ];
 
   programs.bash = {
@@ -19,6 +18,8 @@
       '';
   };
 
+  environment.shells = [ pkgs.bashInteractive ];
+  
   homebrew = {
     enable = true;
     brews = [
