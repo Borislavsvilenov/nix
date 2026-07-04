@@ -9,27 +9,70 @@
 
   outputs = { self, nixpkgs, nixvim, flake-utils, ... }@inputs: 
     flake-utils.lib.eachDefaultSystem (system:
-        let
+      let
         pkgs = nixpkgs.legacyPackages.${system};
 
         nvim = nixvim.legacyPackages.${system}.makeNixvim {
+      
         globals.mapleader = " ";
+        
         plugins = {
-        telescope.enable = true;
-        treesitter.enable = true;
+          telescope.enable = true;
+          treesitter.enable = true;
+
+          lsp = {
+            enable = true;
+            servers = {
+              lua_ls.enable = true;
+              clangd.enable = true;
+              ts_ls.enable = true;
+              nixd.enable = true;
+            };
+
+            keymaps.lspBuf = {
+              "gd" = "definition";
+              "gD" = "declaration";
+              "K" = "hover";
+              "gi" = "implementation";
+              "gr" = "references";
+              "<leader>rn" = "rename";
+              "<leader>ca" = "code_action";
+            };
+
+
+          };
+
+          cmp = {
+            enable = true;
+            settings = {
+              autoEnableSources = true;
+              sources = [
+                { name = "nvim_lsp"; }
+                { name = "path"; }
+                { name = "buffer"; }
+              ];
+
+              mapping = {
+                "<C-f>" = "cmp.mapping(cmp.mapping.select_next_item(), {'i', 's'})";
+                "<C-d>" = "cmp.mapping(cmp.mapping.select_prev_item(), {'i', 's'})";
+                "<CR>" = "cmp.mapping.confirm({ select = true })";
+              };
+            };
+          };
         };
+
+        colorschemes.catppuccin.enable = true;
 
         keymaps = [
         {
-        mode = "n";
-        key = "<leader>e";
-        action = ":Ex<CR>";
-        options = {
-        silent = true;
-        desc = "open explorer";
-        };
+          mode = "n";
+          key = "<leader>e";
+          action = ":Ex<CR>";
+          options = {
+            silent = true;
+            desc = "open explorer";
+          };
         }
-
         {
           mode = "n";
           key = "<leader>ff";
