@@ -19,9 +19,15 @@
       systems = [ "aarch64-darwin" "x86_64" ];
 
       perSystem = { pkgs, ... }: {
-        packages.nvim = import ./modules/nvim/default.nix {
-          inherit pkgs;
-          nixvim = inputs.nixvim;
+        packages = {
+          nvim = import ./modules/nvim/default.nix {
+            inherit pkgs;
+            nixvim = inputs.nixvim;
+          };
+
+          tmux = import ./modules/tmux/default.nix {
+            inherit pkgs;
+          };
         };
 
         devShells.default = pkgs.mkShell {
@@ -35,9 +41,16 @@
           '';
         };
 
-        apps.nvim = {
-          type = "app";
-          program = "${self.packages.${pkgs.stdenv.hostPlatform.system}.nvim}/bin/nvim";
+        apps = {
+          nvim = {
+            type = "app";
+            program = "${self.packages.${pkgs.stdenv.hostPlatform.system}.nvim}/bin/nvim";
+          };
+
+          tmux = {
+            type = "app";
+            program = "${self.packages.${pkgs.stdenv.hostPlatform.system}.tmux}/bin/tmux";
+          };
         };
       };
 
