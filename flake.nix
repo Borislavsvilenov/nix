@@ -1,5 +1,5 @@
 {
-  description = "Nix Darwin Flake";
+  description = "Master Flake";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -33,7 +33,8 @@
         devShells.default = pkgs.mkShell {
           name = "Main Dev Shell";
           buildInputs = [ 
-            self.packages.${pkgs.stdenv.hostPlatform.system}.nvim 
+            self.packages.${pkgs.stdenv.hostPlatform.system}.nvim
+            self.packages.${pkgs.stdenv.hostPlatform.system}.tmux
           ];
 
           shellHook = ''

@@ -7,7 +7,7 @@
 
   environment.systemPackages =
     [
-    pkgs.iterm2
+      pkgs.iterm2
       pkgs.google-chrome
     ];
 
