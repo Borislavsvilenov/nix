@@ -18,6 +18,10 @@
       '';
   };
 
+  fonts.packages = with pkgs; [
+    nerd-fonts.jetbrains-mono
+  ];
+
   environment.shells = [ pkgs.bashInteractive ];
   
   homebrew = {
