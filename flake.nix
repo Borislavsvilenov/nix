@@ -9,50 +9,60 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    flake-utils.url = "github:numtide/flake-utils";
-
-    nvim-src.url = "path:./modules/nvim";
+    flake-parts.url = "github:hercules-ci/flake-parts";
   };
 
-  outputs = { self, nix-darwin, nixpkgs, nix-homebrew, home-manager, flake-utils, ... }@inputs:
-    let
-    universalOutput = flake-utils.lib.eachDefaultSystem (system:
-        let
-        pkgs = nixpkgs.legacyPackages.${system};	
-        in
-        {
-        packages = {
-        nvim = inputs.nvim-src.packages.${system}.default;
+  outputs = { self, nix-darwin, nixpkgs, nix-homebrew, home-manager, flake-parts, ... }@inputs:
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = [ "aarch64-darwin" "x86_64" ];
+
+      perSystem = { pkgs, ... }: {
+        packages.nvim = import ./modules/nvim/default.nix {
+          inherit pkgs;
+          nixvim = inputs.nixvim;
         };
-        }
-        );
 
-  systemConfigs = {
-    darwinConfigurations."samson" = nix-darwin.lib.darwinSystem {
-      specialArgs = { inherit inputs self; };
-      modules = [
-        ./configs/Darwin.nix
-          nix-homebrew.darwinModules.nix-homebrew
-          {
-            nix-homebrew = {
-              enable = true;
-              enableRosetta = true;
-              user = "samson";
-            };
-          }
+        devShells.default = pkgs.mkShell {
+          name = "Main Dev Shell";
+          buildInputs = [ 
+            self.packages.${pkgs.stdenv.hostPlatform.system}.nvim 
+          ];
 
-      home-manager.darwinModules.home-manager
-      {
-        users.users.samson.home = "/Users/samson";
-        home-manager.extraSpecialArgs = { inherit self; };
-        home-manager.useGlobalPkgs = true;
-        home-manager.useUserPackages = true;
-        home-manager.users.samson = ./home.nix;
-      }
-      ];
+          shellHook = ''
+            echo "Terminal Dev Shell Active (C/C++)"
+          '';
+        };
+
+        apps.nvim = {
+          type = "app";
+          program = "${self.packages.${pkgs.stdenv.hostPlatform.system}.nvim}/bin/nvim";
+        };
+      };
+
+      flake = {
+        darwinConfigurations."samson" = nix-darwin.lib.darwinSystem {
+          specialArgs = { inherit inputs self; };
+          modules = [
+            ./configs/Darwin.nix
+            nix-homebrew.darwinModules.nix-homebrew
+              {
+                nix-homebrew = {
+                  enable = true;
+                  enableRosetta = true;
+                  user = "samson";
+                };
+              }
+
+            home-manager.darwinModules.home-manager
+            {
+              users.users.samson.home = "/Users/samson";
+              home-manager.extraSpecialArgs = { inherit self; };
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.samson = ./home.nix;
+            }
+          ];
+        };
+      };
     };
-    darwinPackages = self.darwinConfigurations."samson".pkgs;
-  };
-  in
-    universalOutput // systemConfigs;
 }
