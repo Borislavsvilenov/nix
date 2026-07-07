@@ -9,6 +9,10 @@
     [
       pkgs.iterm2
       pkgs.google-chrome
+      pkgs.qbittorrent
+      pkgs.ffmpeg
+      pkgs.nodejs
+      pkgs.python3
     ];
 
   programs.bash = {

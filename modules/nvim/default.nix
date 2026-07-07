@@ -92,6 +92,15 @@ nixvim.legacyPackages.${pkgs.stdenv.hostPlatform.system}.makeNixvim {
       desc = "Auto-align/format entire file";
     };
   }
+  {
+    mode = "n";
+    key = "<leader>T";
+    action = "<cmd>lua vim.diagnostic.open_float()<CR>";
+    options = {
+      desc = "Show diagnostic [E]rror in float";
+      silent = true;
+    };
+  }
   ];
 
   opts = {
