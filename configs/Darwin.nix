@@ -13,6 +13,11 @@
       pkgs.ffmpeg
       pkgs.nodejs
       pkgs.python3
+      pkgs.cmake
+      pkgs.jdk25
+      pkgs.nodejs
+      pkgs.lidarr
+      pkgs.prowlarr
     ];
 
   programs.bash = {
@@ -27,15 +32,26 @@
   ];
 
   environment.shells = [ pkgs.bashInteractive ];
-  
+
   homebrew = {
     enable = true;
     brews = [
       "mas"
+      "http-server"
     ];
     casks = [
       "hiddenbar"
-        "stats"
+      "stats"
+      "steam"
+      "discord"
+      "prismlauncher"
+      "microsoft-office"
+      "microsoft-teams"
+      "dotnet-sdk"
+      "dotnet-sdk@8"
+      "bluestacks"
+      "cloudflare-warp"
+      "stremio"
     ];
     masApps = {
     };

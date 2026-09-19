@@ -12,8 +12,12 @@ nixvim.legacyPackages.${pkgs.stdenv.hostPlatform.system}.makeNixvim {
       servers = {
         lua_ls.enable = true;
         clangd.enable = true;
+        clangd.cmd = [
+          "--compile-commands-dir=build"
+        ];
         ts_ls.enable = true;
         nixd.enable = true;
+        roslyn_ls.enable = true;
       };
 
       keymaps.lspBuf = {

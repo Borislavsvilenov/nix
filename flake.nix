@@ -20,12 +20,12 @@
 
       perSystem = { pkgs, ... }: {
         packages = {
-          nvim = import ./modules/nvim/default.nix {
+          nvim = import ./modules/nvim/nvim.nix {
             inherit pkgs;
             nixvim = inputs.nixvim;
           };
 
-          tmux = import ./modules/tmux/default.nix {
+          tmux = import ./modules/tmux/tmux.nix {
             inherit pkgs;
           };
         };
