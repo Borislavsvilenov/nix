@@ -1,32 +1,38 @@
 { pkgs, ... }: 
 
-{
-  perSystem = { pkgs, ... }: let
-  
-  plugins = with pkgs.tmuxPlugins; [
-    vim-tmux-navigator
-  ];
+let
+plugins = with pkgs.tmuxPlugins; [
+  vim-tmux-navigator
+  catppuccin
+];
 
-  pluginCmds = builtins.concatStringsSep "\n" (
-      map (p: "run-shell ${p.rtp || p}/share/tmux-plugins/${p.pluginName || p.pname}/${p.pluginName || p.pname}.tmux") plugins
-    );
+pluginCmds = builtins.concatStringsSep "\n" (
+  map (p: 
+    let
+      path = p.rtp or "${p}/share/tmux-plugins/${p.pluginName or p.pname}";
+      name = p.pluginName or p.pname;
+    in 
+      "run ${path}/${name}.tmux"
+    ) plugins
+  );
 
-  tmuxConf = pkgs.writeText "tmux.conf" (builtins.readFile ./tmux.conf);
+tmuxConf = pkgs.writeText "tmux.conf" ''
+  ${builtins.readFile ./tmux.conf}
+  ${pluginCmds}
+'';
 
-  tmuxApp = pkgs.writeShellScriptBin "tmux" ''
-    exec ${pkgs.tmux}/bin/tmux -f ${tmuxConf} "$@"
+tmuxApp = pkgs.writeShellScriptBin "tmux" ''
+  exec ${pkgs.tmux}/bin/tmux -f ${tmuxConf} "$@"
+'';
 
-    ${pluginCmds}
-  '';
+in {
+  packages.tmux = tmuxApp;
 
-  in {
-    packages.tmux = tmuxApp;
-
-    devShells.tmux = pkgs.mkShell {
-      buildInputs = [ tmuxApp ];
-      shellHook = ''
-        exec tmux
+  devShells.tmux = pkgs.mkShell {
+    buildInputs = [ tmuxApp ];
+    shellHook = ''
+      exec tmux
       '';
-    };
   };
 }
+

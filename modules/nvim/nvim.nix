@@ -1,6 +1,7 @@
-{ pkgs, nixvim, ... }:
+{ pkgs, inputs', ... }:
 
-nixvim.legacyPackages.${pkgs.stdenv.hostPlatform.system}.makeNixvim {
+let
+nvim = inputs'.nixvim.legacyPackages.makeNixvim {
   globals.mapleader = " ";
 
   plugins = {
@@ -118,5 +119,16 @@ nixvim.legacyPackages.${pkgs.stdenv.hostPlatform.system}.makeNixvim {
     expandtab = true;      
     smartindent = true;    
     wrap = false;          
+  };
+};
+
+in{
+  packages.nvim = nvim;
+
+  devShells.nvim = pkgs.mkShell {
+    buildInputs = [ nvim ];
+    shellHook = ''
+      exec nvim
+    '';
   };
 }

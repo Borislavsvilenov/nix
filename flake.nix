@@ -19,16 +19,10 @@
       systems = [ "aarch64-darwin" "x86_64" ];
 
       perSystem = { pkgs, ... }: {
-        packages = {
-          nvim = import ./modules/nvim/nvim.nix {
-            inherit pkgs;
-            nixvim = inputs.nixvim;
-          };
-
-          tmux = import ./modules/tmux/tmux.nix {
-            inherit pkgs;
-          };
-        };
+        imports = [
+          ./modules/tmux/tmux.nix
+          ./modules/nvim/nvim.nix
+        ];
 
         devShells.default = pkgs.mkShell {
           name = "Main Dev Shell";
