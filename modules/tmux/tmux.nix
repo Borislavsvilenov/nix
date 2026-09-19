@@ -9,10 +9,10 @@ plugins = with pkgs.tmuxPlugins; [
 pluginCmds = builtins.concatStringsSep "\n" (
   map (p: 
     let
-      path = p.rtp or "${p}/share/tmux-plugins/${p.pluginName or p.pname}";
       name = p.pluginName or p.pname;
+      path = p.rtp or "${p}/share/tmux-plugins/${name}/${name}.tmux";
     in 
-      "run ${path}/${name}.tmux"
+      "run-shell ${path}"
     ) plugins
   );
 

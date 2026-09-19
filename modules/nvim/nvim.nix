@@ -7,6 +7,7 @@ nvim = inputs'.nixvim.legacyPackages.makeNixvim {
   plugins = {
     telescope.enable = true;
     treesitter.enable = true;
+    tmux-navigator.enable = true;
 
     lsp = {
       enable = true;
