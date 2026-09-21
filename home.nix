@@ -26,7 +26,7 @@
       la = "ls -la";
       cls = "clear";
 
-      rebuild = "sudo darwin-rebuild switch --flake ~/nix#samson";
+      rebuild-darwin = "sudo darwin-rebuild switch --flake ~/nix/darwin#samson";
     };
 
     initExtra = ''
