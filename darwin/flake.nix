@@ -1,7 +1,6 @@
 {
   description = "Configuration for mac";
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     flake-parts.url = "github:hercules-ci/flake-parts";
     
     home-manager.url = "github:nix-community/home-manager";
@@ -12,16 +11,17 @@
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
 
     configs.url = "path:../";
+    nixpkgs.follows = "configs/nixpkgs";
   };
 
-  outputs = inputs@{ self, flake-parts, home-manager, nix-darwin, nix-homebrew, configs }:
+  outputs = inputs@{ self, flake-parts, home-manager, nix-darwin, nix-homebrew, configs, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ "x86_64-darwin" "aarch64-darwin" ];
 
       flake = {
         darwinConfigurations."samson" = nix-darwin.lib.darwinSystem {
           modules = [
-            ./configuration.nix
+            ./samson.nix
             nix-homebrew.darwinModules.nix-homebrew
             {
               nix-homebrew = {

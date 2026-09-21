@@ -6,8 +6,6 @@
 
   home.packages = with pkgs; [
     git
-      self.packages.${pkgs.stdenv.hostPlatform.system}.nvim
-      self.packages.${pkgs.stdenv.hostPlatform.system}.tmux
   ];
 
   programs.home-manager.enable = true;
