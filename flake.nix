@@ -16,7 +16,7 @@
 
   outputs = { self, nix-darwin, nixpkgs, nix-homebrew, home-manager, flake-parts, ... }@inputs:
     flake-parts.lib.mkFlake { inherit inputs; } {
-      systems = [ "aarch64-darwin" "x86_64" ];
+      systems = [ "x86_64" "x86_64-darwin" "aarch64" "aarch64-darwin" ];
 
       perSystem = { pkgs, ... }: {
         imports = [
@@ -32,7 +32,7 @@
           ];
 
           shellHook = ''
-            echo "Terminal Dev Shell Active (C/C++)"
+            echo "Terminal Dev Shell Active"
           '';
         };
 
@@ -58,8 +58,9 @@
               {
                 nix-homebrew = {
                   enable = true;
-                  enableRosetta = true;
+                  enableRosetta = false;
                   user = "samson";
+                  autoMigrate = true;
                 };
               }
 
