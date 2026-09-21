@@ -16,7 +16,7 @@
 
   outputs = { self, nix-darwin, nixpkgs, nix-homebrew, home-manager, flake-parts, ... }@inputs:
     flake-parts.lib.mkFlake { inherit inputs; } {
-      systems = [ "x86_64" "x86_64-darwin" "aarch64" "aarch64-darwin" ];
+      systems = [ "x86_64" "x86_64-darwin" "aarch64-linux" "aarch64-darwin" ];
 
       perSystem = { pkgs, ... }: {
         imports = [
