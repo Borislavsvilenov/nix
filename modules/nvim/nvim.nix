@@ -110,6 +110,8 @@ nvim = inputs'.nixvim.legacyPackages.makeNixvim {
   ];
 
   opts = {
+    title = true;
+    titlestring = "%t";
     number = true;        
     relativenumber = true; 
 
