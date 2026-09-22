@@ -25,13 +25,15 @@
         devShells.default = pkgs.mkShell {
           name = "Main Dev Shell";
           buildInputs = [ 
-            self.imports.${pkgs.stdenv.hostPlatform.system}.nvim
-            self.imports.${pkgs.stdenv.hostPlatform.system}.tmux
+            self.packages.${pkgs.stdenv.hostPlatform.system}.nvim
+            self.packages.${pkgs.stdenv.hostPlatform.system}.tmux
           ];
 
           shellHook = ''
+            PS1='\[\e[38;5;33;1m\]\u\[\e[0m\] \[\e[38;5;51;1;3m\]\W\[\e[0m\] \[\e[38;5;214m\]#\[\e[0m\] '
             echo "Terminal Dev Shell Active"
           '';
+
         };
 
         apps = {
