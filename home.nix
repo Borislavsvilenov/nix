@@ -29,6 +29,7 @@
 
     initExtra = ''
       PS1='\[\e[38;5;33;1m\]\u\[\e[0m\] \[\e[38;5;51;1;3m\]\W\[\e[0m\] \[\e[38;5;214m\]#\[\e[0m\] '
+      source ${pkgs.blesh}/share/blesh/ble.sh
     '';
   };
 

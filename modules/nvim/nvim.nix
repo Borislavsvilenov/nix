@@ -59,6 +59,7 @@ nvim = inputs'.nixvim.legacyPackages.makeNixvim {
 
     settings = {
       flavour = "mocha"; # latte, frappe, macchiato, mocha
+      transparent_background = true;
 
         custom_highlights = ''
         function(colors)

@@ -52,6 +52,7 @@
       "bluestacks"
       "cloudflare-warp"
       "stremio"
+      "db-browser-for-sqlite"
     ];
     masApps = {
     };
