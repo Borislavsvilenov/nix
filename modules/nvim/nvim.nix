@@ -61,7 +61,7 @@ nvim = inputs'.nixvim.legacyPackages.makeNixvim {
       flavour = "mocha"; # latte, frappe, macchiato, mocha
       transparent_background = true;
 
-        custom_highlights = ''
+      custom_highlights = ''
         function(colors)
         return {
           LineNr = { fg = "#AAAAAA", bg = "NONE", bold = false },
@@ -113,7 +113,7 @@ nvim = inputs'.nixvim.legacyPackages.makeNixvim {
   opts = {
     title = true;
     titlestring = "%t";
-    number = true;        
+    number = true;
     relativenumber = true; 
 
     clipboard = [ "unnamedplus" ];
@@ -133,6 +133,6 @@ in{
     buildInputs = [ nvim ];
     shellHook = ''
       exec nvim
-    '';
+      '';
   };
 }
