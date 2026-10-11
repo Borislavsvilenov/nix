@@ -15,7 +15,12 @@ nvim = inputs'.nixvim.legacyPackages.makeNixvim {
         lua_ls.enable = true;
         clangd.enable = true;
         clangd.cmd = [
+          "clangd"
           "--compile-commands-dir=build"
+          "--background-index"
+          "--clang-tidy"
+          "--completion-style=detailed"
+          "--header-insertion=iwyu"
         ];
         ts_ls.enable = true;
         nixd.enable = true;
@@ -59,7 +64,7 @@ nvim = inputs'.nixvim.legacyPackages.makeNixvim {
 
     settings = {
       flavour = "mocha"; # latte, frappe, macchiato, mocha
-      transparent_background = true;
+        transparent_background = true;
 
       custom_highlights = ''
         function(colors)

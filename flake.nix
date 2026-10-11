@@ -3,13 +3,9 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-
-    home-manager.url = "github:nix-community/home-manager";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
-
-    nixvim.url = "github:nix-community/nixvim";
-
     flake-parts.url = "github:hercules-ci/flake-parts";
+ 
+    nixvim.url = "github:nix-community/nixvim";
   };
 
   outputs = { self, nixpkgs, flake-parts, ... }@inputs:
@@ -24,9 +20,13 @@
 
         devShells.default = pkgs.mkShell {
           name = "Main Dev Shell";
+          packages = [
+            
+          ];
           buildInputs = [ 
             self.packages.${pkgs.stdenv.hostPlatform.system}.nvim
             self.packages.${pkgs.stdenv.hostPlatform.system}.tmux
+            pkgs.git
           ];
 
           shellHook = ''

@@ -1,4 +1,4 @@
-{ pkgs, self, ... }: 
+{ self, pkgs, ... }: 
 
 {
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -18,6 +18,8 @@
       pkgs.nodejs
       pkgs.lidarr
       pkgs.prowlarr
+      pkgs.cargo
+      pkgs.lldb
     ];
 
   programs.bash = {
@@ -53,6 +55,10 @@
       "cloudflare-warp"
       "stremio"
       "db-browser-for-sqlite"
+      "intellij-idea"
+      "mythic"
+      "openmtp"
+      "the-unarchiver"
     ];
     masApps = {
     };
