@@ -15,6 +15,7 @@
         nixosVM = nixpkgs.lib.nixosSystem {
           modules = [
             ./nixosVM.nix
+            ../../configuration.nix
           ];
 
           environment.systemPackages = [
