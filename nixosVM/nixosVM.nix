@@ -1,4 +1,4 @@
-{ self, pkgs, ... }: 
+{ self, pkgs, inputs, ... }: 
 
 {
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -7,6 +7,8 @@
 
   environment.systemPackages =
     [
+      inputs.configs.packages.aarch64-linux.nvim
+      inputs.configs.packages.aarch64-linux.tmux
       pkgs.google-chrome
       pkgs.cmake
       pkgs.git
@@ -18,8 +20,18 @@
 
   programs.bash = {
     enable = true;
-    interactiveShellInit = ''
+    blesh.enable = true;
 
+    shellAliases = {
+      gl = "git log --oneline";
+      la = "ls -la";
+      cls = "clear";
+
+      rebuild-darwin = "sudo darwin-rebuild switch --flake ~/nix/darwin#samson";
+    };
+
+    promptInit = ''
+      PS1='\[\e[38;5;33;1m\]\u\[\e[0m\] \[\e[38;5;51;1;3m\]\W\[\e[0m\] \[\e[38;5;214m\]#\[\e[0m\] '
       '';
   };
 
@@ -28,9 +40,6 @@
   ];
 
   environment.shells = [ pkgs.bashInteractive ];
-
-  system.keyboard.enableKeyMapping = true;
-  system.keyboard.remapCapsLockToControl = true;
 
   nixpkgs.hostPlatform = "aarch64-linux";
 }

@@ -13,14 +13,11 @@
 
       flake.nixosConfigurations = {
         nixosVM = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs; };
+
           modules = [
             ./nixosVM.nix
-            ../../configuration.nix
-          ];
-
-          environment.systemPackages = [
-            configs.packages.aarch64-linux.nvim
-            configs.packages.aarch64-linux.tmux
+            ./configuration.nix
           ];
         };
       };
